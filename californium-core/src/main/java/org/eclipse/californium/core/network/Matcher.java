@@ -172,7 +172,10 @@ public class Matcher {
 		if (LOGGER.isLoggable(Level.FINE)) LOGGER.fine("Stored open request by "+idByMID+", "+idByToken);
 		
 		exchangesByMID.put(idByMID, exchange);
-		exchangesByToken.put(idByToken, exchange);
+		Exchange old = exchangesByToken.put(idByToken, exchange);
+		if (old != null && old != exchange) {
+			LOGGER.log(Level.INFO, "Exchange {0} replaced in {1}: new {2}, old {3}", new Object[]{idByToken, Integer.toHexString(System.identityHashCode(exchangesByToken)), exchange, old});
+		}
 	}
 
 	public void sendResponse(Exchange exchange, Response response) {

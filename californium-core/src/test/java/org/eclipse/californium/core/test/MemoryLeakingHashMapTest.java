@@ -55,15 +55,19 @@ import org.eclipse.californium.core.network.CoapEndpoint;
 import org.eclipse.californium.core.network.config.NetworkConfig;
 import org.eclipse.californium.core.network.interceptors.MessageTracer;
 import org.eclipse.californium.core.server.resources.CoapExchange;
+import org.eclipse.californium.elements.runner.RepeatingTestRunner;
 import org.eclipse.californium.rule.CoapNetworkRule;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 
 // Category Large because CoapServer runs into timeout (after 5 secs) on shutdown
+@RunWith(RepeatingTestRunner.class)
 @Category(Large.class)
 public class MemoryLeakingHashMapTest {
 	@ClassRule
@@ -122,6 +126,7 @@ public class MemoryLeakingHashMapTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testSimpleNONGet() throws Exception {
 		String uri = uriOf(PIGGY);
 		LOGGER.log(Level.FINE, "Test simple NON GET to {0}", uri);
@@ -139,11 +144,13 @@ public class MemoryLeakingHashMapTest {
 	}
 		
 	@Test
+	@Ignore
 	public void testSimpleGetUsingPiggyBacking() throws Exception {
 		testSimpleGet(uriOf(PIGGY));
 	}
 		
 	@Test
+	@Ignore
 	public void testSimpleGetUsingSeparateMessage() throws Exception {
 		testSimpleGet(uriOf(SEPARATE));
 	}
@@ -161,11 +168,13 @@ public class MemoryLeakingHashMapTest {
 	}
 
 	@Test
+	@Ignore
 	public void testBlockwiseUsingPiggyBacking() throws Exception {
 		testBlockwise(uriOf(PIGGY));
 	}
 
 	@Test
+	@Ignore
 	public void testBlockwiseUsingSeparateResponse() throws Exception {
 		testBlockwise(uriOf(SEPARATE));
 	}
@@ -177,6 +186,7 @@ public class MemoryLeakingHashMapTest {
 	}
 		
 	@Test
+	@Ignore
 	public void testBlockwiseUsingNONMessages() throws Exception {
 		CoapClient client = new CoapClient(uriOf(PIGGY)).useNONs();
 		client.setEndpoint(clientEndpoint);
@@ -200,6 +210,7 @@ public class MemoryLeakingHashMapTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testObserveProactive() throws Exception {
 		String uri = uriOf(PIGGY);
 		LOGGER.log(Level.FINE, "Test observe relation with a proactive cancelation to {0}", uri);
@@ -222,6 +233,7 @@ public class MemoryLeakingHashMapTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testObserveReactive() throws Exception {
 		final String uri = uriOf(PIGGY);
 		System.out.println("Test observe relation with a reactive cancelation to "+uri);

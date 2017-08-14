@@ -21,6 +21,7 @@ package org.eclipse.californium.core.network.stack;
 
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.californium.core.coap.EmptyMessage;
@@ -187,8 +188,10 @@ public class CoapStack {
 
 		@Override
 		public void receiveResponse(Exchange exchange, Response response) {
-			if (!response.getOptions().hasObserve())
+			LOGGER.log(Level.INFO, "Exchange {0}, request {1}: received {2}", new Object[]{exchange, exchange.getRequest(), response});
+			if (!response.getOptions().hasObserve()) {
 				exchange.setComplete();
+			}
 			if (deliverer != null) {
 				deliverer.deliverResponse(exchange, response); // notify request that response has arrived
 			} else {

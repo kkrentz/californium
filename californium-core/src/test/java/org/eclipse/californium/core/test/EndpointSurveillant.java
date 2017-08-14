@@ -100,7 +100,7 @@ public class EndpointSurveillant {
 		buffer.append("exchangesByMID: ");
 		printContent(exchangesByMID, buffer);
 
-		buffer.append("\nexchangesByToken: ");
+		buffer.append("\nexchangesByToken: [").append(Integer.toHexString(System.identityHashCode(exchangesByToken))).append("]");
 		printContent(exchangesByToken, buffer);
 
 		buffer.append("\nongoingExchanges: ");

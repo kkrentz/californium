@@ -361,9 +361,15 @@ public class BlockwiseLayer extends AbstractLayer {
 			// a new notification might arrive during a blockwise transfer
 			if (response.getOptions().hasObserve() && block2.getNum()==0 && status.getCurrentNum()!=0) {
 
-				if (response.getOptions().getObserve()>status.getObserve()) {
+				if (response.getOptions().getObserve() > status.getObserve()) {
 					// log a warning, since this might cause a loop where no notification is ever assembled (when the server sends notifications faster than the blocks can be transmitted)
-					LOGGER.warning("Ongoing blockwise transfer reseted at num="+status.getCurrentNum()+" by new notification: "+response);
+					LOGGER.log(Level.WARNING, "Ongoing blockwise transfer reseted at num={0} by new notification: {1}", new Object[]{status.getCurrentNum(), response});
+					// cleanup current request
+					byte[] token = exchange.getRequest().getToken();
+					byte[] currentToken = exchange.getCurrentRequest().getToken();
+					if (!Arrays.equals(token, currentToken)) {
+						exchange.completeCurrentRequest();
+					}
 					// reset current status
 					exchange.setResponseBlockStatus(null);
 					// and create new status for fresher notification
