@@ -28,6 +28,7 @@
  *                                                    Proactive observe cancellation may cause
  *                                                    errors, if they cancel not completely
  *                                                    created notifies (before the MID is assigned).
+ *    Achim Kraus (Bosch Software Innovations GmbH) - ignore notifies after proactive cancel observe.
  ******************************************************************************/
 package org.eclipse.californium.core.network;
 
@@ -362,7 +363,13 @@ public class Matcher {
 			if (prev != null) { // (and thus it holds: prev == exchange)
 				LOGGER.info("Duplicate response for open exchange: "+response);
 				response.setDuplicate(true);
+			} else if (exchange.getRequest().getOptions().isObserve(1) && response.getOptions().hasObserve()) {
+				// "proactive cancel observe" and overlapping notifies
+				LOGGER.info("Ignoring notify for already canceled observe " + response);
+				// ignore notify
+				return null;
 			} else {
+				// process matching response (token) as ACK
 				idByMID = new KeyMID(exchange.getCurrentRequest().getMID(), null, 0);
 				exchangesByMID.remove(idByMID, exchange);
 				if (LOGGER.isLoggable(Level.FINE)) LOGGER.fine("Closed open request with "+idByMID);

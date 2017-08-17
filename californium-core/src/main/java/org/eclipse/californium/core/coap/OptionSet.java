@@ -18,6 +18,7 @@
  *    Kai Hudalla - logging
  *    Achim Kraus (Bosch Software Innovations GmbH) - make getOthers() public.
  *                                                    issue #286
+ *    Achim Kraus (Bosch Software Innovations GmbH) - add isObserve(int).
  ******************************************************************************/
 package org.eclipse.californium.core.coap;
 
@@ -1223,6 +1224,17 @@ public class OptionSet {
 	 */
 	public boolean hasObserve() {
 		return observe != null;
+	}
+
+	/**
+	 * Checks if the Observe option is present and equal to the provided observe
+	 * number.
+	 * 
+	 * @param observe observe number to be compared
+	 * @return true if present and and equal to the provided observe number
+	 */
+	public boolean isObserve(int observe) {
+		return this.observe != null && this.observe == observe;
 	}
 
 	/**
